@@ -1,0 +1,19 @@
+{
+    "name": "example-shamir-secret-sharing-ts",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "type": "module",
+    "license": "MIT",
+    "author": {
+        "name": "evan kim",
+        "email": "keispace.kyj@gmail.com"
+    },
+    "scripts": {
+        "build": "tsc",
+        "test": "tsc && node dist/index.js"
+    },
+    "dependencies": {
+        "multiformats": "^13.3.2",
+        "shamir-secret-sharing": "^0.0.4"
+    }
+}
