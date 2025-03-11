@@ -38,7 +38,7 @@ export const test = async () => {
     console.log('origin:', origin);
     const shards = await stringToShards64(origin, shares, threshold, base);
     console.log('shards:', shards);
-    const partialShards = shards.slice(0, threshold);
+    const partialShards = shards.sort(() => 0.5 - Math.random()).slice(0, threshold);
     console.log('partial shards:', partialShards);
 
     const restored = await shards64ToString(partialShards, base);
