@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Shamir Secret Sharing Test</title>
+    </head>
+    <body>
+        <h1>Shamir Secret Sharing Browser Test</h1>
+        <div>
+            <h2>Test Results:</h2>
+            <pre id="results"></pre>
+        </div>
+
+        <script type="module">
+            import * as ShamirSharing from './dist/browser/index.js';
+
+            async function runTests() {
+                try {
+                    const results = document.getElementById('results');
+
+                    // 테스트 데이터
+                    const testData = {
+                        message: 'This is a browser test message',
+                        shares: 5,
+                        threshold: 3,
+                        base: 'base64',
+                    };
+
+                    results.textContent += `Original message: ${testData.message}\n\n`;
+
+                    // 비밀 분할
+                    const shards = await ShamirSharing.stringToShards64(
+                        testData.message,
+                        testData.shares,
+                        testData.threshold,
+                        testData.base,
+                    );
+
+                    results.textContent += `Generated ${shards.length} shards:\n`;
+                    shards.forEach((shard, i) => {
+                        results.textContent += `Shard ${i + 1}: ${shard}\n`;
+                    });
+                    results.textContent += '\n';
+
+                    const partialShards = shards.sort(() => 0.5 - Math.random()).slice(0, testData.threshold);
+
+                    results.textContent += `Using ${partialShards.length} random shards for reconstruction\n\n`;
+
+                    const reconstructed = await ShamirSharing.shards64ToString(partialShards, testData.base);
+
+                    results.textContent += `Reconstructed message: ${reconstructed}\n\n`;
+                    results.textContent += `Test ${reconstructed === testData.message ? 'PASSED ✓' : 'FAILED ✗'}\n`;
+                } catch (error) {
+                    document.getElementById('results').textContent += `ERROR: ${error.message}\n`;
+                    console.error(error);
+                }
+            }
+
+            window.addEventListener('load', runTests);
+        </script>
+    </body>
+</html>

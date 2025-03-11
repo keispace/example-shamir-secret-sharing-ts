@@ -1,19 +1,54 @@
 {
-    "name": "example-shamir-secret-sharing-ts",
+    "name": "shamir-secret-sharing-base-ts",
     "version": "1.0.0",
-    "main": "dist/index.js",
+    "description": "Shamir Secret Sharing implementation(base encoding) with TypeScript",
+    "main": "dist/cjs/index.js",
+    "module": "dist/esm/index.js",
+    "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "browser": "./dist/browser/index.js",
+            "import": "./dist/esm/index.js",
+            "require": "./dist/cjs/index.js",
+            "types": "./dist/types/index.d.ts"
+        }
+    },
     "type": "module",
     "license": "MIT",
     "author": {
         "name": "evan kim",
         "email": "keispace.kyj@gmail.com"
     },
+    "files": [
+        "dist",
+        "README.md"
+    ],
     "scripts": {
-        "build": "tsc",
-        "test": "tsc && node dist/index.js"
+        "build": "npm run build:esm && npm run build:cjs && npm run build:browser",
+        "build:browser": "esbuild index.ts --bundle --minify --platform=browser --format=esm --outfile=dist/browser/index.js",
+        "build:esm": "tsc -p tsconfig.json",
+        "build:cjs": "tsc -p tsconfig.cjs.json",
+        "test": "tsc && node dist/esm/index.js",
+        "prepublishOnly": "npm run build",
+        "serve": "npx serve -s . --no-clipboard",
+        "browser-test": "npm run build && npm run serve"
     },
     "dependencies": {
         "multiformats": "^13.3.2",
+        "pako": "^2.1.0",
         "shamir-secret-sharing": "^0.0.4"
-    }
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.5",
+        "@types/pako": "^2.0.3",
+        "esbuild": "^0.25.1",
+        "typescript": "^5.3.3"
+    },
+    "keywords": [
+        "shamir",
+        "secret-sharing",
+        "cryptography",
+        "base64",
+        "base58"
+    ]
 }
