@@ -6,15 +6,17 @@
         <title>Shamir Secret Sharing Test</title>
     </head>
     <body>
-        <h1>Shamir Secret Sharing Browser Test</h1>
+        <h1>Shamir Secret Sharing Browser Test tool</h1>
         <div>
             <h2>Test Results:</h2>
             <pre id="results"></pre>
         </div>
 
         <script type="module">
-            import * as ShamirSharing from './dist/browser/index.js';
-
+            import SSS from './dist/browser/index.js';
+            const shamirSharing = new SSS.ShamirSharing();
+            // console.log('모듈 구조:', shamirSharing);
+            // results.textContent = `사용 가능한 함수: ${Object.keys(shamirSharing).join(', ')}\n\n`;
             async function runTests() {
                 try {
                     const results = document.getElementById('results');
@@ -30,7 +32,7 @@
                     results.textContent += `Original message: ${testData.message}\n\n`;
 
                     // 비밀 분할
-                    const shards = await ShamirSharing.stringToShards64(
+                    const shards = await shamirSharing.stringToShards64(
                         testData.message,
                         testData.shares,
                         testData.threshold,
@@ -47,7 +49,7 @@
 
                     results.textContent += `Using ${partialShards.length} random shards for reconstruction\n\n`;
 
-                    const reconstructed = await ShamirSharing.shards64ToString(partialShards, testData.base);
+                    const reconstructed = await shamirSharing.shards64ToString(partialShards, testData.base);
 
                     results.textContent += `Reconstructed message: ${reconstructed}\n\n`;
                     results.textContent += `Test ${reconstructed === testData.message ? 'PASSED ✓' : 'FAILED ✗'}\n`;

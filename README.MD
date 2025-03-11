@@ -1,6 +1,6 @@
-# Example Sharmirs Secret Sharing TypeScript
+# Sharmirs Secret Sharing TypeScript
 
-ecmascript & TS example of Shamirs Secret Sharing algorithm
+Shamir Secret Sharing implementation(base encoding) with TypeScript
 
 ```
 > npm install

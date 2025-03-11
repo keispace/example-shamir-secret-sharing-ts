@@ -7,10 +7,10 @@
     "types": "dist/types/index.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/types/index.d.ts",
             "browser": "./dist/browser/index.js",
             "import": "./dist/esm/index.js",
-            "require": "./dist/cjs/index.js",
-            "types": "./dist/types/index.d.ts"
+            "require": "./dist/cjs/index.js"
         }
     },
     "type": "module",
@@ -25,12 +25,12 @@
     ],
     "scripts": {
         "build": "npm run build:esm && npm run build:cjs && npm run build:browser",
-        "build:browser": "esbuild index.ts --bundle --minify --platform=browser --format=esm --outfile=dist/browser/index.js",
+        "build:browser": "esbuild src/index.ts --bundle --minify --platform=browser --format=esm --outfile=dist/browser/index.js",
         "build:esm": "tsc -p tsconfig.json",
         "build:cjs": "tsc -p tsconfig.cjs.json",
         "test": "tsc && node dist/esm/index.js",
         "prepublishOnly": "npm run build",
-        "serve": "npx serve -s . --no-clipboard",
+        "serve": "npx http-server . -o browser-test.html",
         "browser-test": "npm run build && npm run serve"
     },
     "dependencies": {
